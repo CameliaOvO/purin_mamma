@@ -38,15 +38,37 @@ const toInputDateValue = (date) => {
 };
 
 const fromInputDateValue = (value) => {
+  if (!value) return null;
+
   const [year, month, day] = value.split('-').map(Number);
-  return new Date(year, month - 1, day);
+  const date = new Date(year, month - 1, day);
+
+  if (
+    !Number.isInteger(year) ||
+    !Number.isInteger(month) ||
+    !Number.isInteger(day) ||
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    return null;
+  }
+
+  return date;
 };
 
 let visibleMonth = startOfDay(new Date());
 let selectedDate = startOfDay(new Date());
 let solidStartDate = startOfDay(defaultSolidStartDate);
 
-const getDayDiff = (fromDate, toDate) => Math.floor((startOfDay(toDate) - startOfDay(fromDate)) / 86400000);
+const getDayDiff = (fromDate, toDate) => {
+  const fromDay = startOfDay(fromDate);
+  const toDay = startOfDay(toDate);
+  const fromUtc = Date.UTC(fromDay.getFullYear(), fromDay.getMonth(), fromDay.getDate());
+  const toUtc = Date.UTC(toDay.getFullYear(), toDay.getMonth(), toDay.getDate());
+
+  return Math.floor((toUtc - fromUtc) / 86400000);
+};
 const getBabyDay = (date) => getDayDiff(purinBirthDate, date) + 1;
 const getSolidDay = (date) => getDayDiff(solidStartDate, date) + 1;
 
@@ -166,7 +188,10 @@ calendar.addEventListener('click', (event) => {
   const card = event.target.closest('[data-date]');
   if (!card) return;
 
-  selectedDate = fromInputDateValue(card.dataset.date);
+  const nextSelectedDate = fromInputDateValue(card.dataset.date);
+  if (!nextSelectedDate) return;
+
+  selectedDate = nextSelectedDate;
   render();
 });
 
@@ -188,7 +213,13 @@ currentMonthButton.addEventListener('click', () => {
 
 startDateInput.value = toInputDateValue(solidStartDate);
 startDateInput.addEventListener('change', (event) => {
-  solidStartDate = startOfDay(fromInputDateValue(event.target.value));
+  const nextSolidStartDate = fromInputDateValue(event.target.value);
+  if (!nextSolidStartDate) {
+    startDateInput.value = toInputDateValue(solidStartDate);
+    return;
+  }
+
+  solidStartDate = startOfDay(nextSolidStartDate);
   selectedDate = solidStartDate;
   visibleMonth = new Date(solidStartDate.getFullYear(), solidStartDate.getMonth(), 1);
   render();
