@@ -11,6 +11,10 @@
   --line: #f1d6c8;
   --planned: #f6efe8;
   --waiting: #eef3f6;
+  --rice-sequence: #fff0c7;
+  --beef-sequence: #ffe1d8;
+  --zucchini-sequence: #dff5ef;
+  --egg-sequence: #ece8ff;
   --shadow: 0 20px 60px rgba(94, 58, 39, 0.12);
 }
 
@@ -27,7 +31,7 @@ body {
   background: linear-gradient(180deg, var(--bg) 0%, #fff 55%);
   color: var(--ink);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  line-height: 1.6;
+  line-height: 1.6
 }
 
 button,
@@ -285,6 +289,10 @@ h2 {
   gap: 10px;
 }
 
+.calendar {
+  isolation: isolate;
+}
+
 .weekday-row {
   margin-bottom: 10px;
   color: var(--muted);
@@ -294,8 +302,11 @@ h2 {
 }
 
 .day-card {
+  position: relative;
+  z-index: 1;
   display: grid;
-  min-height: 142px;
+  align-content: start;
+  min-height: 118px;
   border: 1px solid var(--line);
   border-radius: 20px;
   background: var(--card);
@@ -303,6 +314,64 @@ h2 {
   padding: 12px;
   text-align: left;
   box-shadow: 0 10px 26px rgba(94, 58, 39, 0.08);
+}
+
+.day-card.has-sequence {
+  border-color: transparent;
+  background: var(--sequence-bg);
+}
+
+.day-card.has-sequence::before,
+.day-card.has-sequence::after {
+  position: absolute;
+  top: 16px;
+  bottom: 16px;
+  z-index: -1;
+  background: var(--sequence-bg);
+  content: "";
+}
+
+.day-card.has-sequence::before {
+  left: -10px;
+  width: 10px;
+}
+
+.day-card.has-sequence::after {
+  right: -10px;
+  width: 10px;
+}
+
+.day-card.is-sequence-start::before,
+.day-card.is-sequence-end::after {
+  display: none;
+}
+
+.day-card.is-sequence-start {
+  border-radius: 20px 8px 8px 20px;
+}
+
+.day-card.is-sequence-middle {
+  border-radius: 8px;
+}
+
+.day-card.is-sequence-end {
+  border-radius: 8px 20px 20px 8px;
+}
+
+.sequence-rice {
+  --sequence-bg: var(--rice-sequence);
+}
+
+.sequence-beef {
+  --sequence-bg: var(--beef-sequence);
+}
+
+.sequence-zucchini {
+  --sequence-bg: var(--zucchini-sequence);
+}
+
+.sequence-egg-yolk {
+  --sequence-bg: var(--egg-sequence);
 }
 
 .day-card:hover,
@@ -352,8 +421,7 @@ h2 {
   color: #fff;
 }
 
-.baby-day,
-.solid-day {
+.baby-day {
   color: var(--primary-dark);
   font-size: 0.82rem;
   font-weight: 900;
@@ -364,7 +432,7 @@ h2 {
 }
 
 .menu {
-  margin: 8px 0 10px;
+  margin: 6px 0 8px;
   color: var(--muted);
   font-size: 0.93rem;
 }
@@ -560,20 +628,30 @@ h2 {
   }
 
   .day-card {
-    min-height: 108px;
+    min-height: 82px;
     border-radius: 14px;
     padding: 8px;
   }
 
   .day-card.is-empty {
-    min-height: 24px;
+    min-height: 20px;
+  }
+
+  .day-card.has-sequence::before {
+    left: -6px;
+    width: 6px;
+  }
+
+  .day-card.has-sequence::after {
+    right: -6px;
+    width: 6px;
   }
 
   .baby-day,
   .solid-day,
   .menu,
   .tag {
-    font-size: 0.66rem;
+    font-size: 0.62rem;
   }
 
   .menu {

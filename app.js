@@ -2,19 +2,18 @@ const purinBirthDate = new Date(2026, 0, 28);
 const defaultSolidStartDate = new Date(2026, 0, 28 + 179);
 
 const mealPlanBySolidDay = {
-  1: { menu: '쌀미음 1~2스푼', status: 'new', label: '신규', ingredient: '쌀', note: '오전 시간에 소량으로 시작해요.' },
-  2: { menu: '쌀미음', status: 'observe', label: '관찰', ingredient: '쌀', note: '전날과 같은 재료로 반응을 살펴봐요.' },
-  3: { menu: '쌀미음', status: 'passed', label: '통과', ingredient: '쌀', note: '특이 반응이 없으면 기본 베이스로 사용할 수 있어요.' },
-  5: { menu: '쌀미음 · 애호박', status: 'new', label: '신규', ingredient: '애호박', note: '새 채소는 쌀미음에 소량 섞어 도입해요.' },
-  6: { menu: '애호박 관찰식', status: 'observe', label: '관찰', ingredient: '애호박', note: '같은 재료를 반복해 컨디션 변화를 확인해요.' },
-  8: { menu: '쌀미음 · 감자', status: 'new', label: '신규', ingredient: '감자', note: '새 재료는 한 번에 하나씩 도입해요.' },
-  11: { menu: '소고기 소량', status: 'new', label: '신규', ingredient: '소고기', note: '철분 보충을 위해 잘 갈아 소량으로 시작해요.' },
-  12: { menu: '소고기 관찰식', status: 'observe', label: '관찰', ingredient: '소고기', note: '반응과 소화 상태를 기록해요.' },
-  15: { menu: '쌀 · 애호박 · 소고기', status: 'passed', label: '통과', ingredient: '조합식', note: '통과한 재료끼리 조합해요.' },
-  18: { menu: '달걀 노른자 소량', status: 'new', label: '신규', ingredient: '달걀 노른자', note: '알레르기 관찰을 위해 낮 시간에 아주 소량으로 시작해요.' },
-  19: { menu: '달걀 노른자 관찰식', status: 'observe', label: '관찰', ingredient: '달걀 노른자', note: '두드러기, 구토, 호흡 증상 등 이상 반응을 살펴봐요.' },
-  22: { menu: '닭고기 · 단호박', status: 'new', label: '신규', ingredient: '닭고기', note: '단백질 재료는 충분히 익혀 곱게 갈아요.' },
-  25: { menu: '통과 재료 조합식', status: 'passed', label: '통과', ingredient: '조합식', note: '통과한 재료를 주기적으로 다시 노출해요.' },
+  1: { menu: '쌀미음', status: 'new', label: '쌀 1/3', ingredient: '쌀', note: '오전 시간에 1~2스푼으로 시작해요.', trialId: 'rice', trialDay: 1, trialLength: 3 },
+  2: { menu: '쌀미음', status: 'observe', label: '쌀 2/3', ingredient: '쌀', note: '전날과 같은 재료로 반응을 살펴봐요.', trialId: 'rice', trialDay: 2, trialLength: 3 },
+  3: { menu: '쌀미음', status: 'passed', label: '쌀 3/3', ingredient: '쌀', note: '특이 반응이 없으면 기본 베이스로 사용할 수 있어요.', trialId: 'rice', trialDay: 3, trialLength: 3 },
+  4: { menu: '소고기', status: 'new', label: '소고기 1/3', ingredient: '소고기', note: '쌀미음에 잘 익힌 소고기를 곱게 갈아 소량 섞어요.', trialId: 'beef', trialDay: 1, trialLength: 3 },
+  5: { menu: '소고기', status: 'observe', label: '소고기 2/3', ingredient: '소고기', note: '같은 재료를 유지하면서 피부, 구토, 컨디션 변화를 기록해요.', trialId: 'beef', trialDay: 2, trialLength: 3 },
+  6: { menu: '소고기', status: 'passed', label: '소고기 3/3', ingredient: '소고기', note: '문제 없이 지나가면 단백질 베이스 후보로 저장해요.', trialId: 'beef', trialDay: 3, trialLength: 3 },
+  9: { menu: '애호박', status: 'new', label: '애호박 1/3', ingredient: '애호박', note: '새 채소는 쌀미음에 소량 섞어 도입해요.', trialId: 'zucchini', trialDay: 1, trialLength: 3 },
+  10: { menu: '애호박', status: 'observe', label: '애호박 2/3', ingredient: '애호박', note: '같은 재료를 반복해 컨디션 변화를 확인해요.', trialId: 'zucchini', trialDay: 2, trialLength: 3 },
+  11: { menu: '애호박', status: 'passed', label: '애호박 3/3', ingredient: '애호박', note: '특이 반응이 없으면 통과 재료로 표시해요.', trialId: 'zucchini', trialDay: 3, trialLength: 3 },
+  15: { menu: '달걀 노른자', status: 'new', label: '노른자 1/3', ingredient: '달걀 노른자', note: '알레르기 관찰을 위해 낮 시간에 아주 소량으로 시작해요.', trialId: 'egg-yolk', trialDay: 1, trialLength: 3 },
+  16: { menu: '달걀 노른자', status: 'observe', label: '노른자 2/3', ingredient: '달걀 노른자', note: '두드러기, 구토, 호흡 증상 등 이상 반응을 살펴봐요.', trialId: 'egg-yolk', trialDay: 2, trialLength: 3 },
+  17: { menu: '달걀 노른자', status: 'passed', label: '노른자 3/3', ingredient: '달걀 노른자', note: '문제 없이 지나가면 유지 노출 후보로 표시해요.', trialId: 'egg-yolk', trialDay: 3, trialLength: 3 },
 };
 
 const calendar = document.querySelector('#meal-calendar');
@@ -38,37 +37,17 @@ const toInputDateValue = (date) => {
 };
 
 const fromInputDateValue = (value) => {
-  if (!value) return null;
-
   const [year, month, day] = value.split('-').map(Number);
-  const date = new Date(year, month - 1, day);
-
-  if (
-    !Number.isInteger(year) ||
-    !Number.isInteger(month) ||
-    !Number.isInteger(day) ||
-    date.getFullYear() !== year ||
-    date.getMonth() !== month - 1 ||
-    date.getDate() !== day
-  ) {
-    return null;
-  }
-
-  return date;
+  return new Date(year, month - 1, day);
 };
+const getBabyDay = (date) => getDayDiff(purinBirthDate, date) + 1;
+const getSolidDay = (date) => getDayDiff(solidStartDate, date) + 1;
 
 let visibleMonth = startOfDay(new Date());
 let selectedDate = startOfDay(new Date());
 let solidStartDate = startOfDay(defaultSolidStartDate);
 
-const getDayDiff = (fromDate, toDate) => {
-  const fromDay = startOfDay(fromDate);
-  const toDay = startOfDay(toDate);
-  const fromUtc = Date.UTC(fromDay.getFullYear(), fromDay.getMonth(), fromDay.getDate());
-  const toUtc = Date.UTC(toDay.getFullYear(), toDay.getMonth(), toDay.getDate());
-
-  return Math.floor((toUtc - fromUtc) / 86400000);
-};
+const getDayDiff = (fromDate, toDate) => Math.floor((startOfDay(toDate) - startOfDay(fromDate)) / 86400000);
 const getBabyDay = (date) => getDayDiff(purinBirthDate, date) + 1;
 const getSolidDay = (date) => getDayDiff(solidStartDate, date) + 1;
 
@@ -95,27 +74,31 @@ const getMealNote = (date) => {
   }
 
   return mealPlanBySolidDay[solidDay] ?? {
-    menu: '식단 계획',
+    menu: '쉬는 날',
     status: 'planned',
     label: '예정',
-    ingredient: '미정',
-    note: '통과한 재료와 신규 테스트 슬롯을 기준으로 식단을 채울 수 있어요.',
+    ingredient: '통과 재료',
+    note: '새 재료 테스트를 쉬고, 이미 통과한 재료로 편하게 먹는 날이에요.',
   };
 };
 
 const renderStartSummary = () => {
-  solidStartSummary.textContent = `${formatKoreanDate(solidStartDate)} · 생후 ${getBabyDay(solidStartDate)}일차 시작`;
+  solidStartSummary.textContent = `${formatKoreanDate(solidStartDate)} · D+${getBabyDay(solidStartDate)} 시작`;
 };
 
 const renderDayDetail = (date = selectedDate) => {
   const note = getMealNote(date);
   const solidDay = getSolidDay(date);
-  const solidDayText = solidDay > 0 ? `이유식 ${solidDay}일차` : `시작 ${Math.abs(solidDay) + 1}일 전`;
+  const solidDayText = note.trialId
+    ? `${note.ingredient} 테스트 ${note.trialDay}/${note.trialLength}`
+    : solidDay > 0
+      ? '테스트 쉬는 날'
+      : `시작 ${Math.abs(solidDay) + 1}일 전`;
 
   dayDetailTitle.textContent = formatKoreanDate(date);
   dayDetail.innerHTML = `
     <div class="detail-meta">
-      <span>생후 ${getBabyDay(date)}일차</span>
+      <span>D+${getBabyDay(date)}</span>
       <span>${solidDayText}</span>
     </div>
     <div class="detail-menu-card ${note.status}">
@@ -147,7 +130,7 @@ const renderMonthlyCalendar = () => {
   const daysInMonth = lastDay.getDate();
 
   monthLabel.textContent = `${year}년 ${month + 1}월`;
-  babyAgeToday.textContent = `생후 ${getBabyDay(today)}일차`;
+  babyAgeToday.textContent = `D+${getBabyDay(today)}`;
   todayLabel.textContent = `${formatKoreanDate(today)} 기준`;
 
   const blanks = Array.from({ length: leadingEmptyDays }, () => '<div class="day-card is-empty" aria-hidden="true"></div>');
@@ -155,20 +138,20 @@ const renderMonthlyCalendar = () => {
     const day = index + 1;
     const date = new Date(year, month, day);
     const babyDay = getBabyDay(date);
-    const solidDay = getSolidDay(date);
     const note = getMealNote(date);
     const isToday = date.getTime() === today.getTime();
     const isSelected = date.getTime() === selectedDate.getTime();
     const inputValue = toInputDateValue(date);
 
+    const sequenceClass = note.trialId ? `has-sequence is-sequence-${note.trialDay === 1 ? 'start' : note.trialDay === note.trialLength ? 'end' : 'middle'} sequence-${note.trialId}` : '';
+
     return `
-      <button class="day-card ${isToday ? 'is-today' : ''} ${isSelected ? 'is-selected' : ''}" type="button" data-date="${inputValue}" aria-label="${month + 1}월 ${day}일, 생후 ${babyDay}일차, ${note.menu}">
+      <button class="day-card ${sequenceClass} ${isToday ? 'is-today' : ''} ${isSelected ? 'is-selected' : ''}" type="button" data-date="${inputValue}" aria-label="${month + 1}월 ${day}일, D+${babyDay}, ${note.menu}">
         <span class="day-number">
           <span>${day}</span>
           ${isToday ? '<span class="today-pill">오늘</span>' : ''}
         </span>
-        <span class="baby-day">생후 ${babyDay}일차</span>
-        <span class="solid-day">${solidDay > 0 ? `이유식 ${solidDay}일차` : `D-${Math.abs(solidDay) + 1}`}</span>
+        <span class="baby-day">D+${babyDay}</span>
         <span class="menu">${note.menu}</span>
         <span class="tag ${note.status}">${note.label}</span>
       </button>
@@ -188,10 +171,7 @@ calendar.addEventListener('click', (event) => {
   const card = event.target.closest('[data-date]');
   if (!card) return;
 
-  const nextSelectedDate = fromInputDateValue(card.dataset.date);
-  if (!nextSelectedDate) return;
-
-  selectedDate = nextSelectedDate;
+  selectedDate = fromInputDateValue(card.dataset.date);
   render();
 });
 
@@ -213,13 +193,7 @@ currentMonthButton.addEventListener('click', () => {
 
 startDateInput.value = toInputDateValue(solidStartDate);
 startDateInput.addEventListener('change', (event) => {
-  const nextSolidStartDate = fromInputDateValue(event.target.value);
-  if (!nextSolidStartDate) {
-    startDateInput.value = toInputDateValue(solidStartDate);
-    return;
-  }
-
-  solidStartDate = startOfDay(nextSolidStartDate);
+  solidStartDate = startOfDay(fromInputDateValue(event.target.value));
   selectedDate = solidStartDate;
   visibleMonth = new Date(solidStartDate.getFullYear(), solidStartDate.getMonth(), 1);
   render();
