@@ -23,34 +23,63 @@
             <p class="eyebrow">Purin's meal calendar</p>
             <h1 id="calendar-title">이번 달 이유식 달력</h1>
             <p class="dashboard-copy">
-              푸린이의 생후 일차를 보면서 신규 식재료와 알레르기 관찰 일정을 함께 확인해요.
+              푸린이의 D+ 날짜와 이유식 시작일을 기준으로 알레르기 테스트 일정을 이어서 확인해요.
             </p>
           </div>
-          <aside class="baby-age-card" aria-label="푸린이 생후 일차">
+          <aside class="baby-age-card" aria-label="푸린이 D+ 날짜와 이유식 시작일">
             <span class="baby-name">푸린이</span>
-            <strong id="baby-age-today">생후 계산 중</strong>
+            <strong id="baby-age-today">D+ 계산 중</strong>
             <span id="today-label">오늘 기준</span>
+            <label class="start-date-control" for="solid-start-date">
+              <span>이유식 시작일</span>
+              <input id="solid-start-date" type="date" />
+            </label>
+            <span id="solid-start-summary" class="solid-start-summary">D+180 시작 예정</span>
           </aside>
         </div>
 
-        <div class="month-card">
-          <div class="month-card-header">
-            <div>
-              <p class="eyebrow">Calendar</p>
-              <h2 id="month-label">이번 달</h2>
+        <div class="calendar-layout">
+          <div class="month-card">
+            <div class="month-card-header">
+              <div>
+                <p class="eyebrow">Calendar</p>
+                <h2 id="month-label">이번 달</h2>
+              </div>
+              <div class="month-actions" aria-label="달력 월 이동">
+                <button class="ghost-button" type="button" id="prev-month" aria-label="이전 달 보기">‹</button>
+                <button class="ghost-button today-button" type="button" id="current-month">이번 달</button>
+                <button class="ghost-button" type="button" id="next-month" aria-label="다음 달 보기">›</button>
+              </div>
             </div>
-            <p class="month-help">각 날짜에는 푸린이 생후 일차와 식단 상태가 표시됩니다.</p>
+
+            <div class="status-legend" aria-label="식단 상태 범례">
+              <span><i class="legend-dot planned"></i>예정</span>
+              <span><i class="legend-dot new"></i>신규</span>
+              <span><i class="legend-dot observe"></i>관찰</span>
+              <span><i class="legend-dot passed"></i>통과</span>
+              <span><i class="legend-dot waiting"></i>시작 전</span>
+            </div>
+
+            <p class="month-help">날짜를 누르면 해당 날짜의 식단과 이유식 진행 상태를 자세히 볼 수 있습니다.</p>
+            <div class="weekday-row" aria-hidden="true">
+              <span>일</span>
+              <span>월</span>
+              <span>화</span>
+              <span>수</span>
+              <span>목</span>
+              <span>금</span>
+              <span>토</span>
+            </div>
+            <div class="calendar month-calendar" aria-label="이번 달 이유식 달력" id="meal-calendar"></div>
           </div>
-          <div class="weekday-row" aria-hidden="true">
-            <span>일</span>
-            <span>월</span>
-            <span>화</span>
-            <span>수</span>
-            <span>목</span>
-            <span>금</span>
-            <span>토</span>
-          </div>
-          <div class="calendar month-calendar" aria-label="이번 달 이유식 달력" id="meal-calendar"></div>
+
+          <aside class="day-detail-card" aria-live="polite" aria-labelledby="day-detail-title">
+            <p class="eyebrow">Selected day</p>
+            <h2 id="day-detail-title">날짜를 선택해 주세요</h2>
+            <div id="day-detail" class="day-detail">
+              달력에서 날짜를 누르면 식단과 알레르기 관찰 상태가 표시됩니다.
+            </div>
+          </aside>
         </div>
       </section>
     </header>

@@ -10,6 +10,11 @@
   --soft: #ffe4d4;
   --line: #f1d6c8;
   --planned: #f6efe8;
+  --waiting: #eef3f6;
+  --rice-sequence: #fff0c7;
+  --beef-sequence: #ffe1d8;
+  --zucchini-sequence: #dff5ef;
+  --egg-sequence: #ece8ff;
   --shadow: 0 20px 60px rgba(94, 58, 39, 0.12);
 }
 
@@ -27,6 +32,15 @@ body {
   color: var(--ink);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.6;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
 }
 
 a {
@@ -53,7 +67,6 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 8px 0 36px;
   padding: 8px 0 56px;
 }
 
@@ -79,10 +92,15 @@ a {
   gap: 24px;
 }
 
-.dashboard-header {
+.dashboard-header,
+.calendar-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
   gap: 24px;
+  align-items: start;
+}
+
+.dashboard-header {
   align-items: end;
 }
 
@@ -114,7 +132,7 @@ p {
 }
 
 h1 {
-  max-width: 720px;
+  max-width: 780px;
   margin-bottom: 14px;
   font-size: clamp(2.5rem, 7vw, 5rem);
   line-height: 0.98;
@@ -136,6 +154,7 @@ h2 {
 
 .baby-age-card,
 .month-card,
+.day-detail-card,
 .flow-card,
 .comparison article,
 .notice {
@@ -162,13 +181,42 @@ h2 {
   letter-spacing: -0.05em;
 }
 
-.baby-age-card span:last-child {
+.baby-age-card span:last-child,
+.solid-start-summary {
   color: var(--muted);
 }
 
-.month-card {
+.start-date-control {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.start-date-control input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  color: var(--ink);
+  padding: 12px 14px;
+}
+
+.solid-start-summary {
+  font-size: 0.9rem;
+}
+
+.month-card,
+.day-detail-card {
   overflow: hidden;
   padding: clamp(16px, 3vw, 28px);
+}
+
+.day-detail-card {
+  position: sticky;
+  top: 24px;
 }
 
 .month-card-header {
@@ -176,24 +224,73 @@ h2 {
   align-items: end;
   justify-content: space-between;
   gap: 20px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .month-card-header h2,
-.month-help {
+.month-help,
+.day-detail-card h2 {
   margin-bottom: 0;
 }
 
+.month-actions,
+.status-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ghost-button,
+.primary-action {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font-weight: 900;
+}
+
+.ghost-button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px 14px;
+}
+
+.today-button {
+  color: var(--primary-dark);
+}
+
+.status-legend {
+  margin-bottom: 14px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.status-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+}
+
 .month-help {
-  max-width: 360px;
-  text-align: right;
+  margin-bottom: 18px;
 }
 
 .weekday-row,
 .calendar {
   display: grid;
-  grid-template-columns: repeat(7, minmax(96px, 1fr));
+  grid-template-columns: repeat(7, minmax(82px, 1fr));
   gap: 10px;
+}
+
+.calendar {
+  isolation: isolate;
 }
 
 .weekday-row {
@@ -205,22 +302,100 @@ h2 {
 }
 
 .day-card {
-  min-height: 134px;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: start;
+  min-height: 118px;
   border: 1px solid var(--line);
   border-radius: 20px;
   background: var(--card);
+  color: inherit;
   padding: 12px;
+  text-align: left;
   box-shadow: 0 10px 26px rgba(94, 58, 39, 0.08);
+}
+
+.day-card.has-sequence {
+  border-color: transparent;
+  background: var(--sequence-bg);
+}
+
+.day-card.has-sequence::before,
+.day-card.has-sequence::after {
+  position: absolute;
+  top: 16px;
+  bottom: 16px;
+  z-index: -1;
+  background: var(--sequence-bg);
+  content: "";
+}
+
+.day-card.has-sequence::before {
+  left: -10px;
+  width: 10px;
+}
+
+.day-card.has-sequence::after {
+  right: -10px;
+  width: 10px;
+}
+
+.day-card.is-sequence-start::before,
+.day-card.is-sequence-end::after {
+  display: none;
+}
+
+.day-card.is-sequence-start {
+  border-radius: 20px 8px 8px 20px;
+}
+
+.day-card.is-sequence-middle {
+  border-radius: 8px;
+}
+
+.day-card.is-sequence-end {
+  border-radius: 8px 20px 20px 8px;
+}
+
+.sequence-rice {
+  --sequence-bg: var(--rice-sequence);
+}
+
+.sequence-beef {
+  --sequence-bg: var(--beef-sequence);
+}
+
+.sequence-zucchini {
+  --sequence-bg: var(--zucchini-sequence);
+}
+
+.sequence-egg-yolk {
+  --sequence-bg: var(--egg-sequence);
+}
+
+.day-card:hover,
+.day-card:focus-visible {
+  border-color: var(--primary);
+  outline: none;
+  transform: translateY(-1px);
 }
 
 .day-card.is-empty {
   background: rgba(255, 255, 255, 0.42);
   box-shadow: none;
+  pointer-events: none;
 }
 
 .day-card.is-today {
   border-color: var(--primary);
   box-shadow: 0 16px 36px rgba(238, 143, 107, 0.22);
+}
+
+.day-card.is-selected {
+  border-color: var(--primary-dark);
+  background: linear-gradient(180deg, #fff, #fff7f1);
+  box-shadow: 0 18px 40px rgba(206, 104, 72, 0.24);
 }
 
 .day-number {
@@ -234,6 +409,7 @@ h2 {
 .today-pill,
 .tag {
   display: inline-flex;
+  width: fit-content;
   border-radius: 999px;
   padding: 3px 8px;
   font-size: 0.72rem;
@@ -246,16 +422,15 @@ h2 {
 }
 
 .baby-day {
-  margin-bottom: 8px;
   color: var(--primary-dark);
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 900;
 }
 
 .menu {
-  margin: 0 0 10px;
+  margin: 6px 0 8px;
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 0.93rem;
 }
 
 .new {
@@ -276,6 +451,81 @@ h2 {
 .planned {
   background: var(--planned);
   color: var(--muted);
+}
+
+.waiting {
+  background: var(--waiting);
+  color: #5e7080;
+}
+
+.day-detail {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.detail-meta span {
+  border-radius: 999px;
+  background: var(--planned);
+  color: var(--muted);
+  padding: 6px 10px;
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.detail-menu-card {
+  display: grid;
+  gap: 10px;
+  border-radius: 22px;
+  padding: 18px;
+}
+
+.detail-menu-card strong {
+  color: var(--ink);
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.detail-menu-card p {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.detail-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.detail-list div {
+  display: grid;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+}
+
+.detail-list dt {
+  color: var(--primary-dark);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.detail-list dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+.primary-action {
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  padding: 13px 16px;
 }
 
 .section {
@@ -309,6 +559,16 @@ h2 {
   color: var(--muted);
 }
 
+@media (max-width: 1080px) {
+  .calendar-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .day-detail-card {
+    position: static;
+  }
+}
+
 @media (max-width: 960px) {
   .dashboard-header,
   .split,
@@ -321,13 +581,9 @@ h2 {
     flex-direction: column;
   }
 
-  .month-help {
-    text-align: left;
-  }
-
   .weekday-row,
   .calendar {
-    grid-template-columns: repeat(7, minmax(76px, 1fr));
+    grid-template-columns: repeat(7, minmax(64px, 1fr));
   }
 }
 
@@ -338,10 +594,23 @@ h2 {
     flex-direction: column;
   }
 
+  .topbar {
+    padding-bottom: 36px;
+  }
+
   .month-card {
     margin-inline: -8px;
     padding: 12px;
     border-radius: 22px;
+  }
+
+  .month-actions,
+  .status-legend {
+    width: 100%;
+  }
+
+  .ghost-button {
+    flex: 1;
   }
 
   .weekday-row,
@@ -355,19 +624,29 @@ h2 {
   }
 
   .day-card {
-    min-height: 96px;
+    min-height: 82px;
     border-radius: 14px;
     padding: 8px;
   }
 
   .day-card.is-empty {
-    min-height: 24px;
+    min-height: 20px;
+  }
+
+  .day-card.has-sequence::before {
+    left: -6px;
+    width: 6px;
+  }
+
+  .day-card.has-sequence::after {
+    right: -6px;
+    width: 6px;
   }
 
   .baby-day,
   .menu,
   .tag {
-    font-size: 0.68rem;
+    font-size: 0.62rem;
   }
 
   .menu {
