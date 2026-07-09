@@ -53,6 +53,24 @@ const fromInputDateValue = (value) => {
   const [year, month, day] = value.split('-').map(Number);
   return new Date(year, month - 1, day);
 };
+const getBabyDay = (date) => getDayDiff(purinBirthDate, date) + 1;
+const getSolidDay = (date) => getDayDiff(solidStartDate, date) + 1;
+
+let visibleMonth = startOfDay(new Date());
+let selectedDate = startOfDay(new Date());
+let solidStartDate = startOfDay(defaultSolidStartDate);
+
+const getDayDiff = (fromDate, toDate) => Math.floor((startOfDay(toDate) - startOfDay(fromDate)) / 86400000);
+const getBabyDay = (date) => getDayDiff(purinBirthDate, date) + 1;
+const getSolidDay = (date) => getDayDiff(solidStartDate, date) + 1;
+
+let visibleMonth = startOfDay(new Date());
+let selectedDate = startOfDay(new Date());
+let solidStartDate = startOfDay(defaultSolidStartDate);
+
+const getDayDiff = (fromDate, toDate) => Math.floor((startOfDay(toDate) - startOfDay(fromDate)) / 86400000);
+const getBabyDay = (date) => getDayDiff(purinBirthDate, date) + 1;
+const getSolidDay = (date) => getDayDiff(solidStartDate, date) + 1;
 
 let visibleMonth = startOfDay(new Date());
 let selectedDate = startOfDay(new Date());
