@@ -2,6 +2,10 @@
 
 `purin_mamma`는 아기 이유식 식단표를 달력으로 계획하고, 식재료별 알레르기 테스트와 실제 섭취 기록을 함께 관리하기 위한 프로젝트입니다.
 
+## 바로 확인
+
+- [purin_mamma 웹페이지 바로가기](https://cameliaovo.github.io/purin_mamma/)
+
 ## 주요 방향
 
 - 월간/주간 이유식 식단표 생성

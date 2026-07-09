@@ -1,6 +1,8 @@
 const initPurinCalendar = () => {
-const purinBirthDate = new Date(2026, 0, 28);
-const defaultSolidStartDate = new Date(2026, 0, 28 + 179);
+const createCalendarDate = ({ year, month, day }) => new Date(year, month - 1, day);
+
+const purinBirthDate = createCalendarDate({ year: 2026, month: 1, day: 28 });
+const defaultSolidStartDate = createCalendarDate({ year: 2026, month: 1, day: 28 + 179 });
 
 const mealPlanBySolidDay = {
   1: { menu: '쌀미음', status: 'new', label: '쌀 1/3', ingredient: '쌀', note: '오전 시간에 1~2스푼으로 시작해요.', trialId: 'rice', trialDay: 1, trialLength: 3 },
@@ -51,6 +53,14 @@ const fromInputDateValue = (value) => {
   const [year, month, day] = value.split('-').map(Number);
   return new Date(year, month - 1, day);
 };
+const getBabyDay = (date) => getDayDiff(purinBirthDate, date) + 1;
+const getSolidDay = (date) => getDayDiff(solidStartDate, date) + 1;
+
+let visibleMonth = startOfDay(new Date());
+let selectedDate = startOfDay(new Date());
+let solidStartDate = startOfDay(defaultSolidStartDate);
+
+const getDayDiff = (fromDate, toDate) => Math.floor((startOfDay(toDate) - startOfDay(fromDate)) / 86400000);
 const getBabyDay = (date) => getDayDiff(purinBirthDate, date) + 1;
 const getSolidDay = (date) => getDayDiff(solidStartDate, date) + 1;
 
