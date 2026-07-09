@@ -1,3 +1,4 @@
+const initPurinCalendar = () => {
 const purinBirthDate = new Date(2026, 0, 28);
 const defaultSolidStartDate = new Date(2026, 0, 28 + 179);
 
@@ -16,17 +17,27 @@ const mealPlanBySolidDay = {
   17: { menu: '달걀 노른자', status: 'passed', label: '노른자 3/3', ingredient: '달걀 노른자', note: '문제 없이 지나가면 유지 노출 후보로 표시해요.', trialId: 'egg-yolk', trialDay: 3, trialLength: 3 },
 };
 
-const calendar = document.querySelector('#meal-calendar');
-const monthLabel = document.querySelector('#month-label');
-const babyAgeToday = document.querySelector('#baby-age-today');
-const todayLabel = document.querySelector('#today-label');
-const startDateInput = document.querySelector('#solid-start-date');
-const solidStartSummary = document.querySelector('#solid-start-summary');
-const dayDetailTitle = document.querySelector('#day-detail-title');
-const dayDetail = document.querySelector('#day-detail');
-const prevMonthButton = document.querySelector('#prev-month');
-const nextMonthButton = document.querySelector('#next-month');
-const currentMonthButton = document.querySelector('#current-month');
+const getRequiredElement = (selector) => {
+  const element = document.querySelector(selector);
+
+  if (!element) {
+    throw new Error(`필수 달력 요소를 찾을 수 없습니다: ${selector}`);
+  }
+
+  return element;
+};
+
+const calendar = getRequiredElement('#meal-calendar');
+const monthLabel = getRequiredElement('#month-label');
+const babyAgeToday = getRequiredElement('#baby-age-today');
+const todayLabel = getRequiredElement('#today-label');
+const startDateInput = getRequiredElement('#solid-start-date');
+const solidStartSummary = getRequiredElement('#solid-start-summary');
+const dayDetailTitle = getRequiredElement('#day-detail-title');
+const dayDetail = getRequiredElement('#day-detail');
+const prevMonthButton = getRequiredElement('#prev-month');
+const nextMonthButton = getRequiredElement('#next-month');
+const currentMonthButton = getRequiredElement('#current-month');
 
 const startOfDay = (date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
 const toInputDateValue = (date) => {
@@ -40,6 +51,14 @@ const fromInputDateValue = (value) => {
   const [year, month, day] = value.split('-').map(Number);
   return new Date(year, month - 1, day);
 };
+const getBabyDay = (date) => getDayDiff(purinBirthDate, date) + 1;
+const getSolidDay = (date) => getDayDiff(solidStartDate, date) + 1;
+
+let visibleMonth = startOfDay(new Date());
+let selectedDate = startOfDay(new Date());
+let solidStartDate = startOfDay(defaultSolidStartDate);
+
+const getDayDiff = (fromDate, toDate) => Math.floor((startOfDay(toDate) - startOfDay(fromDate)) / 86400000);
 const getBabyDay = (date) => getDayDiff(purinBirthDate, date) + 1;
 const getSolidDay = (date) => getDayDiff(solidStartDate, date) + 1;
 
@@ -200,3 +219,10 @@ startDateInput.addEventListener('change', (event) => {
 });
 
 render();
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initPurinCalendar);
+} else {
+  initPurinCalendar();
+}
