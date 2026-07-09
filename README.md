@@ -33,6 +33,7 @@ python3 -m http.server 8000
 
 - [제품 요구사항](docs/product_requirements.md)
 - [웹페이지 확인 방법](docs/how_to_check.md)
+- [GitHub Pages 연결 방법](docs/github_pages_connect.md)
 
 ## 의료 주의
 
